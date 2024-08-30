@@ -45,5 +45,5 @@ template < typename T, typename ... hello>void faltu( T arg, const hello &... re
 
 ll gcd ( ll a, ll b ) { return __gcd ( a, b ); }
 ll lcm ( ll a, ll b ) { return a * ( b / gcd ( a, b ) ); }
-int dx[]={1,-1.0,0};
+int dx[]={+1,-1,0,0};
 int dy[]={0,0,+1,-1};
