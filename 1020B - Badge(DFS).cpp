@@ -1,51 +1,53 @@
-/***from dust i have come, dust i will be***/
-
+// IN THE NAME OF SUPREME & MERCIFUL GOD
 #include <bits/stdc++.h>
-#define N 1100
 using namespace std;
 
+#define endl '\n'
+#define optimize()                \
+    ios_base::sync_with_stdio(0); \
+    cin.tie(0);                   \
+    cout.tie(0);
+const int xx = 1e3 + 5;
+vector<int> adj[xx];
+vector<bool> vis(xx);
 bool done;
-int vis[N];
-vector<int> adj[N];
-
-void dfs(int s)
+void dfs(int source)
 {
-    if (done)
-        return;
-
-    vis[s] = 1;
-
-    for (int e : adj[s])
+    vis[source] = 1;
+    for (auto e : adj[source])
     {
         if (!vis[e])
+        {
             dfs(e);
+        }
         else
         {
             cout << e << " ";
-            done = true;
             return;
         }
     }
 }
-
 int main()
 {
-    int i, j, k;
-    int n, m;
+    optimize();
+    int m;
+    cin >> m;
 
-    cin >> n;
-    for (i = 1; i <= n; i++)
+    for (int i = 1; i <= m; i++)
     {
-        cin >> m;
-        adj[i].pb(m);
+        int u;
+        cin >> u;
+        adj[i].push_back(u);
     }
-
-    for (i = 1; i <= n; i++)
+    for (int i = 1; i <= m; i++)
     {
-        done = false;
-        memset(vis, 0, sizeof(vis));
+
+        {
+            for (int i = 1; i <= m; i++)
+                vis[i] = 0;
+        }
         dfs(i);
-    }
+        }
 
     return 0;
 }
