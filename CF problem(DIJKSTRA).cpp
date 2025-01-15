@@ -1,30 +1,63 @@
-//dijkstra alogorithm
-//https://codeforces.com/problemset/problem/20/C
-const int mx = 1e5+123;
-ll dist[mx];
-vii adj[mx];
-int par[mx];
-
-void dijkstra ( int s, int n )
+//                                           IN THE NAME OF SUPREME & MERCIFUL GOD
+//                                               Bismillahir Rahmanir Rahim
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+#define endl '\n'
+const double PI = acos(-1);
+const double eps = 1e-9;
+const int inf = 2000000000;
+const ll infLL = 9000000000000000000;
+#define MOD 1000000007
+#define optimize()                \
+    ios_base::sync_with_stdio(0); \
+    cin.tie(0);                   \
+    cout.tie(0);
+#define file()                        \
+    freopen("input.txt", "r", stdin); \
+    freopen("output.txt", "w", stdout);
+ll gcd(ll a, ll b) { return __gcd(a, b); }
+ll lcm(ll a, ll b) { return a * (b / gcd(a, b)); }
+int dx[] = {1, -1, 0, 0, 1, 1, -1, -1};
+int dy[] = {0, 0, 1, -1, 1, -1, -1, 1};
+const int mx = 1e5;
+vector<pair<int, int>> adj[mx];
+vector<long long> dist(mx);
+vector<long long> parent(mx);
+vector<long long> x;
+long long shortestDis = -1;
+long long node, check;
+void dijstra(int start)
 {
-    for ( int i = 1; i <= n; i++ ) dist[i] = infLL;
-    priority_queue< pll, vll, greater<pll>> pq;
+    for (int i = 1; i <= node; i++)
+    {
 
-    dist[s] = 0;
-    pq.push ( { 0, s } );
+        dist[i] = infLL;
+        parent[i] = -1;
+    }
+    dist[start] = 0;
 
-    while ( !pq.empty() ) {
-        int u = pq.top().S;
-        ll curD = pq.top().F;
+    priority_queue<pair<long long, long long>, vector<pair<long long, long long>>, greater<pair<long long, long long>>> pq;
+    pq.push({0, start});
+    while (!pq.empty())
+    {
+        long long cuN = pq.top().second;
+        long long cuD = pq.top().first;
         pq.pop();
-
-        if ( dist[u] < curD ) continue;
-
-        for ( auto v : adj[u] ) {
-            if ( curD + v.S < dist[v.F] ) {
-                dist[v.F] = curD + v.S;
-                par[v.F] = u;
-                pq.push( { dist[v.F], v.F } );
+        if (cuD > dist[cuN])
+            continue;
+        for (auto x : adj[cuN])
+        {
+            if (cuD + x.second < dist[x.first])
+            {
+                dist[x.first] = cuD + x.second;
+                parent[x.first] = cuN;
+                shortestDis = max(dist[x.first], shortestDis);
+                pq.push({dist[x.first], x.first});
+            }
+            if (shortestDis == dist[x.first])
+            {
+                check = x.first;
             }
         }
     }
@@ -32,122 +65,29 @@ void dijkstra ( int s, int n )
 
 int main()
 {
-	optimize();
-
-    int n, m;
-    cin >> n >> m;
-    for ( int i = 1; i <= m; i++ ) {
-        int u, v, w;
-        cin >> u >> v >> w;
-        adj[u].PB ( {v, w} );
-        adj[v].PB ( { u, w } );
-    }
-
-    dijkstra(1, n);
-
-    if ( dist[n] == infLL ) return cout << "-1\n", 0;
-
-    int u = n;
-    vector<int>ans;
-    ans.push_back(u);
-    while ( par[u] != 0 ) {
-        ans.PB ( par[u] );
-        u = par[u];
-    }
-
-    reverse ( all ( ans ) );
-
-    for ( auto u : ans ) cout << u << " ";
-    cout << endl;
-
-
-
-	return 0;
-}
-
-
-
-ORRR
-///   ***   ---   |||   In the name of ALLAH   |||   ---   ***   ///
-
-#include<bits/stdc++.h>
-using namespace std;
-
-typedef long long ll;
-typedef vector<int> vi;
-typedef vector<ll> vl;
-
-
-#define optimize() ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
-
-const int mx = 1e5 + 123;
-vector<pair<long long, long long>> adj[mx];
-ll dist[mx];
-int parent[mx];
-
-void dijkstra(int s, int n) {
-    for (int i = 1; i <= n; i++) {
-        dist[i] = infLL;
-        parent[i] = -1;
-    }
-    
-    dist[s] = 0;
-    priority_queue<pair<long long, long long>, vector<pair<long long, long long>>, greater<pair<long long, long long>>> pq;
-    pq.push({0, s});
-
-    while (!pq.empty()) {
-        ll curD = pq.top().first;
-        int u = pq.top().second;
-        pq.pop();
-
-        if (dist[u] < curD) continue;
-
-        for (auto p : adj[u]) {
-            int v = p.first;
-            ll weight = p.second;
-
-            if (curD + weight < dist[v]) {
-                dist[v] = curD + weight;
-                parent[v] = u;
-                pq.push({dist[v], v});
-            }
-        }
-    }
-}
-
-vector<int> get_path(int n) {
-    vector<int> path;
-    while (n != -1) {
-        path.push_back(n);
-        n = parent[n];
-    }
-    reverse(path.begin(), path.end());
-    return path;
-}
-
-int main() {
     optimize();
 
-    int n, m;
-    cin >> n >> m;
-    for (int i = 1; i <= m; i++) {
-        int u, v, w;
+    cin >> node;
+    for (int i = 1; i <= node; i++)
+    {
+        long long u, v, w;
         cin >> u >> v >> w;
-        adj[u].PB({v, w});
-        adj[v].PB({u, w});
+        adj[u].push_back({v, w});
+        adj[v].push_back({u, w});
     }
-
-    dijkstra(1, n);
-
-    if (dist[n] == infLL) {
-        cout << -1 << endl;
-    } else {
-        vector<int> path = get_path(n);
-        for (int i = 0; i < path.size(); i++) {
-            cout << path[i] << " ";
-        }
+    dijstra(1);
+    cout << shortestDis << endl;
+    cout << check << endl;
+    while (check != -1)
+    {
+        x.push_back(check);
+        check = parent[check];
     }
-    cout << endl;
+    reverse(x.begin(), x.end());
+    for (auto m : x)
+    {
+        cout << m << " ";
+    }
 
     return 0;
 }
