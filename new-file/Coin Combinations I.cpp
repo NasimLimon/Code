@@ -56,3 +56,10 @@ int main()
     }
     cout << sum(x) << endl;
 }
+
+/*
+git init
+git add new-file/
+git commit -am "new"
+git push
+*/
