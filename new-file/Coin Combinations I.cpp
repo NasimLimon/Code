@@ -9,7 +9,7 @@ const double eps = 1e-9;
 const int inf = 2000000000;
 const ll infLL = 9000000000000000000;
 #define MOD 1000000007
-#define optimize()                \
+#define Limon()                   \
     ios_base::sync_with_stdio(0); \
     cin.tie(0);                   \
     cout.tie(0);
@@ -20,12 +20,39 @@ ll gcd(ll a, ll b) { return __gcd(a, b); }
 ll lcm(ll a, ll b) { return a * (b / gcd(a, b)); }
 int dx[] = {1, -1, 0, 0, 1, 1, -1, -1};
 int dy[] = {0, 0, 1, -1, 1, -1, -1, 1};
+ll vis[1000000 + 5];
+ll dp[1000000 + 5];
+vector<ll> v1;
+int sum(int w)
+{
+    if (vis[w] == 1)
+        return dp[w];
+    if (w == 0)
+        return 1;
+    ll result = 0;
+    for (auto q : v1)
+    {
+        if (w - q >= 0)
+        {
+            result += sum(w - q);
+            result = result % MOD;
+        }
+    }
+    vis[w] = 1;
+    dp[w] = result;
+    return dp[w];
+}
+
 int main()
 {
-    optimize();
-    long long t;
-    cin >> t;
-    while (t--)
+    Limon();
+    ll n, x;
+    cin >> n >> x;
+    for (int i = 1; i <= n; i++)
     {
+        ll x1;
+        cin >> x1;
+        v1.push_back(x1);
     }
+    cout << sum(x) << endl;
 }
