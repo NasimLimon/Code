@@ -20,26 +20,26 @@ ll gcd(ll a, ll b) { return __gcd(a, b); }
 ll lcm(ll a, ll b) { return a * (b / gcd(a, b)); }
 int dx[] = {1, -1, 0, 0, 1, 1, -1, -1};
 int dy[] = {0, 0, 1, -1, 1, -1, -1, 1};
-ll dp[105][100005];
 vector<ll> v1;
-
-ll funcCount(ll index, ll sum)
+ll dp[105][1000005];
+ll coinChange2(ll index, ll Money_left)
 {
 
-    if (sum == 0)
+    if (Money_left == 0)
         return 1;
     if (index < 0)
         return 0;
-    if (sum < 0)
-        return 0;
-    if (dp[index][sum] != -1)
-        return dp[index][sum];
-    ll ans = 0;
-
-    ans += funcCount(index, sum - v1[index]);
-    ans += funcCount(index - 1, sum);
-    ans %= MOD;
-    dp[index][sum] = ans;
+    if (dp[index][Money_left] != -1)
+        return dp[index][Money_left];
+    ll skiping = 0;
+    skiping += coinChange2(index - 1, Money_left);
+    ll picking = 0, ans;
+    if (Money_left - v1[index] >= 0)
+    {
+        picking += coinChange2(index, Money_left - v1[index]);
+    }
+    ans = (picking + skiping) % MOD;
+    dp[index][Money_left] = ans;
     return ans;
 }
 int main()
@@ -48,12 +48,11 @@ int main()
     ll n, target;
     cin >> n >> target;
     memset(dp, -1, sizeof(dp));
-
-    for (ll i = 0; i < n; i++)
+    for (ll i = 1; i <= n; i++)
     {
-        ll w;
-        cin >> w;
-        v1.push_back(w);
+        ll x;
+        cin >> x;
+        v1.push_back(x);
     }
-    cout << funcCount(n - 1, target) << endl;
+    cout << coinChange2(n - 1, target) << endl;
 }
