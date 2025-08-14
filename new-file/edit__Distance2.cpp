@@ -1,48 +1,60 @@
-// C++ program to calculate the minimum edit distance
-// between two strings using recursion
-
-#include <cstring>
-#include <iostream>
+//                                           IN THE NAME OF SUPREME & MERCIFUL GOD
+//                                               Bismillahir Rahmanir Rahim
+#include <bits/stdc++.h>
 using namespace std;
-
-int min(int a, int b, int c) { return min(min(a, b), c); }
-
-// Recursive function to find the edit distance
-int editDistanceRecursive(string str1, string str2, int m,
-                          int n)
+typedef long long ll;
+#define endl '\n'
+const double PI = acos(-1);
+const double eps = 1e-9;
+const int inf = 2000000000;
+const ll infLL = 9000000000000000000;
+#define MOD 1000000007
+#define Limon()                   \
+    ios_base::sync_with_stdio(0); \
+    cin.tie(0);                   \
+    cout.tie(0);
+#define file()                        \
+    freopen("input.txt", "r", stdin); \
+    freopen("output.txt", "w", stdout);
+ll gcd(ll a, ll b) { return __gcd(a, b); }
+ll lcm(ll a, ll b) { return a * (b / gcd(a, b)); }
+int dx[] = {1, -1, 0, 0, 1, 1, -1, -1};
+int dy[] = {0, 0, 1, -1, 1, -1, -1, 1};
+string s1, s2;
+ll dp[5005][5005];
+ll Edit_Distance(ll length1, ll length2)
 {
-    // If str1 is empty, insert all characters of str2
-    if (m == 0)
-        return n;
-    // If str2 is empty, remove all characters of str1
-    if (n == 0)
-        return m;
+    // length1=we have to match/check the length1 amount of length String1;
+    // length2=we have to match/check the length1 amount of length String2;
+    // dp[length1][length2]= need number of steps to match both string;
+    if (length1 == 0)
+        return length2;
+    if (length2 == 0)
+        return length1;
+    if (dp[length1][length2] != -1)
+        return dp[length1][length2];
+    ll ans= 0;                                        
 
-    // If the last characters match, move to the next pair
-    if (str1[m - 1] == str2[n - 1])
-        return editDistanceRecursive(str1, str2, m - 1,
-                                     n - 1);
-
-    // If the last characters don't match, consider all
-    // three operations
-    return 1 + min(editDistanceRecursive(str1, str2, m,
-                                         n - 1), // Insert
-                   editDistanceRecursive(str1, str2, m - 1,
-                                         n), // Remove
-                   editDistanceRecursive(str1, str2, m - 1,
-                                         n - 1) // Replace
-               );
+    if (s1[length1 - 1] == s2[length2 - 1])
+    {
+        return Edit_Distance(length1 - 1, length2 - 1);
+    }
+    else
+    {
+        ans = min(Edit_Distance(length1, length2 - 1), Edit_Distance(length1 - 1, length2));
+        ans = min(ans, Edit_Distance(length1 - 1, length2 - 1)) + 1;
+        dp[length1][length2] = ans;
+    }
+    return ans;
 }
-
 int main()
 {
-    // Initialize two strings
-    string str1 = "GEEXSFRGEEKKS";
-    string str2 = "GEEKSFORGEEKS";
-    // print the minimum edit distance
-    cout << "Minimum edit distance is "
-         << editDistanceRecursive(str1, str2, str1.length(),
-                                  str2.length())
-         << endl;
-    return 0;
+    Limon();
+
+    cin >> s1 >> s2;
+    ll n, m;
+    memset(dp, -1, sizeof(dp));
+    n = s1.size();
+    m = s2.size();
+    cout << Edit_Distance(n, m) << endl;
 }
