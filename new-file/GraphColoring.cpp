@@ -5,7 +5,7 @@ int N;
 int Mcolors;
 vector<vector<int>> Adj;
 vector<int> color;
-
+//   Time complexity O(m^N)
 bool isSafe(int v, int c) {
     for (int u : Adj[v]) {
         if (color[u] == c) return false;
