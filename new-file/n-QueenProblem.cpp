@@ -3,6 +3,8 @@ using namespace std;
 using ll = long long;
 #define Limon() ios::sync_with_stdio(false); cin.tie(nullptr);
 
+
+// Time complexity O(n* n!)
 int n;
 vector<int> queen;
 
