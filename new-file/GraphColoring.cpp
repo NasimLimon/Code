@@ -12,7 +12,7 @@ bool isSafe(int v, int c) {
     }
     return true;
 }
-
+ // Time complexity O(color^vertex)
 bool colorVertex(int v) {
     if (v == N) return true;
     for (int c = 1; c <= Mcolors; ++c) {
