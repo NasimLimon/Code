@@ -27,15 +27,21 @@ int MinCostStair(vector<int> &v, int siz)
 {
     if (siz == 0)
         return v[0];
+    if (siz == 1)
+        return v[1];
+    if (dp[siz] != -1)
+        return dp[siz];
     int mx = 2000000000;
+    int res = 0;
     for (int i = 0; i < 2; i++)
     {
         if (siz - a[i] >= 0)
         {
-            mx = min(mx, MinCostStair(v, siz - a[i]));
+            res = MinCostStair(v, siz - a[i]);
+            mx = min(mx, res + v[siz]);
         }
     }
-     dp[siz] = mx;
+    dp[siz] = mx;
     return dp[siz];
 }
 int main()
@@ -44,7 +50,7 @@ int main()
     int n;
     cin >> n;
     vector<int> v1;
-for (int i = 1; i <= n; i++)
+    for (int i = 1; i <= n; i++)
     {
         int x;
         cin >> x;
@@ -52,5 +58,8 @@ for (int i = 1; i <= n; i++)
     }
     for (int i = 0; i < 104; i++)
         dp[i] = -1;
-    cout << MinCostStair(v1, v1.size() + 1) << endl;
+    cout << MinCostStair(v1, n) << endl;
 }
+
+// g++ -std=c++17 -O2 -Wall -Wextra MinCostClimbingStairsLC.cpp -o MinCostClimbingStairs
+//./MinCostClimbingStairs
